@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 export const CalendarContext = createContext();
@@ -38,9 +38,11 @@ export const CalendarProvider = ({ children }) => {
     }
   }, [events]);
 
-  const addEvent = (newEvent) => {
-    setEvents((prevEvents) => [...prevEvents, newEvent]);
-  };
+  const addEvent = useCallback((newEvent) => {
+    const eventWithId = { ...newEvent, id: Date.now().toString() };
+    setEvents((prevEvents) => [...prevEvents, eventWithId]);
+    return eventWithId;
+  }, []);
 
   const updateEvent = (updatedEvent) => {
     setEvents((prevEvents) =>

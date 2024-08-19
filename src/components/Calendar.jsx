@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CalendarContext } from "../context/CalendarContext";
 import EventFilter from "./EventFilter";
@@ -31,6 +31,10 @@ const Calendar = () => {
   const [filteredEvents, setFilteredEvents] = useState(events);
 
   const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+
+  useEffect(() => {
+    setFilteredEvents(events);
+  }, [events]);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -67,6 +71,7 @@ const Calendar = () => {
     }
     handleModalClose();
   };
+
 
   const handleDeleteClick = (eventId) => {
     deleteEvent(eventId);
